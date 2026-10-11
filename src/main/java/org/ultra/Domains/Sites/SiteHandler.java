@@ -1,4 +1,4 @@
-package Domains.Sites;
+package org.ultra.Domains.Sites;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -31,8 +31,26 @@ public class SiteHandler {
         }
     }
 
-    //Get a specific site
+    //Get a specific site by its code
+    public static Site getSiteById(int siteCode) {
+        SiteRepository siteRepository = new SiteRepository();
 
-    //Remove a site
+        try {
+            return siteRepository.getSiteById(siteCode);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Remove a site by its code
+    public static void removeSite(int siteCode) {
+        SiteRepository siteRepository = new SiteRepository();
+
+        try {
+            siteRepository.removeSite(siteCode);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

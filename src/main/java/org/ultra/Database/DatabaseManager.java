@@ -1,4 +1,4 @@
-package Database;
+package org.ultra.Database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

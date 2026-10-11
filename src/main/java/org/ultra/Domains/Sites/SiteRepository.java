@@ -1,6 +1,6 @@
-package Domains.Sites;
+package org.ultra.Domains.Sites;
 
-import Database.DatabaseManager;
+import org.ultra.Database.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,6 +60,49 @@ public class SiteRepository {
         }
 
         return sites;
+    }
+
+
+    public Site getSiteById(int siteCode) throws SQLException {
+        String sql = """
+            SELECT site_code, site_name, active
+            FROM sites
+            WHERE site_code = ?
+            """;
+
+        try (
+                Connection conn = DatabaseManager.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, siteCode);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Site(
+                            rs.getInt("site_code"),
+                            rs.getString("site_name"),
+                            rs.getBoolean("active")
+                    );
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public void removeSite(int siteCode) throws SQLException {
+        String sql = """
+            DELETE FROM sites
+            WHERE site_code = ?
+            """;
+
+        try (
+                Connection conn = DatabaseManager.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, siteCode);
+            stmt.executeUpdate();
+        }
     }
 
 }

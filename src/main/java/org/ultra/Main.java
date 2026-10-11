@@ -1,8 +1,7 @@
 package org.ultra;
 
 
-import Domains.Sites.Site;
-import Domains.Sites.SiteHandler;
+import org.ultra.Domains.Sites.SiteHandler;
 
 public class Main {
     public static void main(String[] args) {

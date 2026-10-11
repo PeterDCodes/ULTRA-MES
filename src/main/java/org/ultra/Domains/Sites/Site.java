@@ -1,4 +1,4 @@
-package Domains.Sites;
+package org.ultra.Domains.Sites;
 
 //Site POJO
 public class Site {
