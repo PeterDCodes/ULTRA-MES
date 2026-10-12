@@ -14,7 +14,7 @@ public class MachineRepository {
     public Machine insert(Machine machine) throws SQLException {
 
         String sql = """
-            INSERT INTO machines (machine_id, machine_type, active)
+            INSERT INTO machines (machine_name, machine_type, active)
             VALUES (?, ?, ?)
             RETURNING *
             """;
@@ -23,7 +23,7 @@ public class MachineRepository {
                 Connection conn = DatabaseManager.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            stmt.setObject(1, machine.getMachineId());
+            stmt.setString(1, machine.getMachineName());
             stmt.setInt(2, machine.getMachineType());
             stmt.setBoolean(3, machine.isActive());
 
@@ -40,7 +40,7 @@ public class MachineRepository {
 
     public List<Machine> getMachines() throws SQLException {
         String sql = """
-            SELECT machine_code, machine_id, machine_type, active
+            SELECT machine_code, machine_name, machine_type, active
             FROM machines
             ORDER BY machine_code
             """;
@@ -54,7 +54,7 @@ public class MachineRepository {
             while (rs.next()) {
                 machines.add(new Machine(
                         rs.getObject("machine_code", Integer.class),
-                        rs.getObject("machine_id", Integer.class),
+                        rs.getString("machine_name"),
                         rs.getInt("machine_type"),
                         rs.getBoolean("active")
                 ));
@@ -66,7 +66,7 @@ public class MachineRepository {
 
     public Machine getMachineById(int machineCode) throws SQLException {
         String sql = """
-            SELECT machine_code, machine_id, machine_type, active
+            SELECT machine_code, machine_name, machine_type, active
             FROM machines
             WHERE machine_code = ?
             """;
@@ -81,7 +81,7 @@ public class MachineRepository {
                 if (rs.next()) {
                     return new Machine(
                             rs.getObject("machine_code", Integer.class),
-                            rs.getObject("machine_id", Integer.class),
+                            rs.getString("machine_name"),
                             rs.getInt("machine_type"),
                             rs.getBoolean("active")
                     );

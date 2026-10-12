@@ -53,7 +53,7 @@ CREATE TABLE machine_types (
 -- MACHINES
 CREATE TABLE machines (
                           machine_code INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                          machine_id INT,
+                          machine_name TEXT,
                           machine_type INT NOT NULL,
                           active BOOLEAN DEFAULT TRUE,
 

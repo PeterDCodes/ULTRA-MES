@@ -5,8 +5,8 @@ import java.util.List;
 
 public class MachineHandler {
 
-    public static Machine makeMachine(Integer machineId, int machineType) {
-        Machine newMachine = new Machine(null, machineId, machineType, true);
+    public static Machine makeMachine(String machineName, int machineType) {
+        Machine newMachine = new Machine(null, machineName, machineType, true);
 
         MachineRepository machineRepository = new MachineRepository();
 

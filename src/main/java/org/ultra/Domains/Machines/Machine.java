@@ -5,13 +5,13 @@ public class Machine {
 
     //Uses Integer because can be null until assigned by DB
     private Integer machineCode;
-    private Integer machineId;
+    private String machineName;
     private int machineType;
     private boolean active;
 
-    public Machine(Integer machineCode, Integer machineId, int machineType, boolean active) {
+    public Machine(Integer machineCode, String machineName, int machineType, boolean active) {
         this.machineCode = machineCode;
-        this.machineId = machineId;
+        this.machineName = machineName;
         this.machineType = machineType;
         this.active = active;
     }
@@ -20,7 +20,7 @@ public class Machine {
     public String toString() {
         return "Machine{" +
                 "machineCode=" + machineCode +
-                ", machineId=" + machineId +
+                ", machineName='" + machineName + '\'' +
                 ", machineType=" + machineType +
                 ", active=" + active +
                 '}';
@@ -30,8 +30,8 @@ public class Machine {
         return machineCode;
     }
 
-    public Integer getMachineId() {
-        return machineId;
+    public String getMachineName() {
+        return machineName;
     }
 
     public int getMachineType() {
