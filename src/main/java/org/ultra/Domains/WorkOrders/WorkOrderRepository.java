@@ -100,6 +100,62 @@ public class WorkOrderRepository {
         return null;
     }
 
+    public WorkOrder changeOrderStatus(int orderId, int statusCode) throws SQLException {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try {
+                WorkOrder order;
+                try (PreparedStatement stmt = conn.prepareStatement("""
+                        SELECT order_id, product_id, quantity, created_at, status_code
+                        FROM work_orders WHERE order_id = ? FOR UPDATE
+                        """)) {
+                    stmt.setInt(1, orderId);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        if (!rs.next()) {
+                            throw new SQLException("Work order not found: " + orderId);
+                        }
+                        order = new WorkOrder(
+                                rs.getInt("order_id"),
+                                rs.getInt("product_id"),
+                                rs.getInt("quantity"),
+                                rs.getObject("created_at", OffsetDateTime.class),
+                                rs.getInt("status_code")
+                        );
+                    }
+                }
+
+                try (PreparedStatement stmt = conn.prepareStatement("""
+                        INSERT INTO work_order_history (work_order, prev_status, new_status, dt_record)
+                        VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+                        """)) {
+                    stmt.setInt(1, orderId);
+                    stmt.setInt(2, order.getStatusCode());
+                    stmt.setInt(3, statusCode);
+                    stmt.executeUpdate();
+                }
+
+                try (PreparedStatement stmt = conn.prepareStatement(
+                        "UPDATE work_orders SET status_code = ? WHERE order_id = ?")) {
+                    stmt.setInt(1, statusCode);
+                    stmt.setInt(2, orderId);
+                    stmt.executeUpdate();
+                }
+
+                conn.commit();
+                return new WorkOrder(order.getOrderId(), order.getProductId(), order.getQuantity(),
+                        order.getCreatedAt(), statusCode);
+            } catch (SQLException | RuntimeException e) {
+                try {
+                    conn.rollback();
+                } catch (SQLException rollbackError) {
+                    e.addSuppressed(rollbackError);
+                }
+                throw e;
+            }
+        }
+    }
+
     public void removeWorkOrder(int orderId) throws SQLException {
         String sql = """
             DELETE FROM work_orders

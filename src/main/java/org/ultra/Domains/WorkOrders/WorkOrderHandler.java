@@ -37,6 +37,16 @@ public class WorkOrderHandler {
         }
     }
 
+    public static WorkOrder changeOrderStatus(int orderId, int statusCode) {
+        WorkOrderRepository repository = new WorkOrderRepository();
+
+        try {
+            return repository.changeOrderStatus(orderId, statusCode);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void removeWorkOrder(int orderId) {
         WorkOrderRepository workOrderRepository = new WorkOrderRepository();
 

@@ -119,3 +119,22 @@ CREATE TABLE machine_product (
                                  CONSTRAINT UQ_machine_product
                                      UNIQUE (type_code, product_code)
 );
+
+--WORK ORDER HISTORY TABLE
+CREATE TABLE "work_order_history" (
+                                      "record_id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                      "work_order" int,
+                                      "prev_status" int,
+                                      "new_status" int,
+                                      "dt_record" timestamptz,
+                                      CONSTRAINT "FK_work_order_history_work_order"
+                                          FOREIGN KEY ("work_order")
+                                              REFERENCES "work_orders"("order_id"),
+                                      CONSTRAINT "FK_work_order_history_prev_status"
+                                          FOREIGN KEY ("prev_status")
+                                              REFERENCES "order_status_codes"("status_id"),
+                                      CONSTRAINT "FK_work_order_history_new_status"
+                                          FOREIGN KEY ("new_status")
+                                              REFERENCES "order_status_codes"("status_id")
+);
+

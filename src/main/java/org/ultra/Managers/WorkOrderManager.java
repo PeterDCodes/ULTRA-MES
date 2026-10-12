@@ -39,11 +39,18 @@ public class WorkOrderManager {
         }
     };
 
-    //Modifies a work order
 
-    //Changes the sta
+    public static WorkOrder closeWorkOrder(int orderId) {
+        return WorkOrderHandler.changeOrderStatus(orderId, 3);
+    }
+
+    public static WorkOrder startWorkOrder(int orderId) {
+        return WorkOrderHandler.changeOrderStatus(orderId, 2);
+    }
 
     //Deletes a work order
+
+
 
 
     private static int promptProduct(){
