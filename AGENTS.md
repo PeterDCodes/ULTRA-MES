@@ -6,8 +6,8 @@ ULTRA-MES is a Java 21 Maven application using PostgreSQL JDBC and HikariCP.
 
 - `src/main/java/org/ultra/Main.java`: application entry point and site-creation example.
 - `src/main/java/Sites/`: site model, repository persistence, and handler operations.
-- `src/main/java/org/ultra/Database/DatabaseManager.java`: connection pool configuration and lifecycle.
-- `src/main/java/org/ultra/Database/ref.sql`: reference schema for sites, machines, products, and work orders.
+- `database`: connection pool configuration and lifecycle.
+- `database`: reference schema for sites, machines, products, and work orders.
 - `src/main/resources/`: currently empty; place runtime resources here.
 - `src/test/java/`: currently empty; place automated tests here.
 - `target/`: generated build output; do not commit it.
