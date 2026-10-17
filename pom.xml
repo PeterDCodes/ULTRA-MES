@@ -33,6 +33,12 @@
             <artifactId>HikariCP</artifactId>
         </dependency>
 
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+
 
     </dependencies>
 
