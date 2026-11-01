@@ -1,4 +1,6 @@
 from parameter import Parameter;
+from datetime import datetime, UTC
+
 #Python class of a machine
 
 #Two types of machines will be used
@@ -7,18 +9,12 @@ from parameter import Parameter;
 
 class Machine:
 
-    def __init__(self):
+    def __init__(self, code, type, name):
 
-        self.code = None
-        self.type = None
-        self.name = None
+        self.code = code
+        self.type = type
+        self.name = name
         self.params: list[Parameter] = []
-
-    def setCode(self, code):
-        self.code = code;
-
-    def setName(self, name):
-        self.name = name;
 
     #Add param to the machine
     def addParam(self, param_name, param_unit, min, max):
@@ -27,12 +23,34 @@ class Machine:
         self.params.append(newParam)
 
 
-    #Produces a record instance for all params od the machine
+    #Produces a record instance for all params of the machine
     def cycle(self, rounds=1):
 
+        cycles = []
+
         for _ in range(rounds):
+
+            #Set simulates measurements
+            measurements = []
             for p in self.params:
-                print(p.makeRecord());
+                measurements.append(p.makeRecord());
+
+
+            #Set simulated timestamp
+            timestamp = datetime.now(UTC).timestamp()
+
+            cycle = {
+                "machine_code": self.code,
+                "machine_type": self.type,
+                "machine_name": self.name,
+                "timestamp": timestamp,
+                "measurements": measurements
+            }
+
+            cycles.append(cycle)
+
+
+        return cycles;
 
 
 

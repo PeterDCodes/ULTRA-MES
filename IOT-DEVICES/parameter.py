@@ -11,7 +11,6 @@ class Parameter:
 
 
     #Makes a param with a name, unit and param range
-    #returns a simple key value
     def makeRecord(self):
 
         #new Record stub
